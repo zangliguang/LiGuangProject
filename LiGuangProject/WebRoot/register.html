@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>注册页面</title>
+<link rel="stylesheet" type="text/css" href="js/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="js/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="js/demo/demo.css">
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script language="javascript">
+    function checkname() {
+        var div = document.getElementById("div1");
+        div.innerHTML = "";
+        var name1 = document.form1.text1.value;
+        if (name1 == "") {
+            div.innerHTML = "姓名不能为空！";
+            document.form1.text1.focus();
+            return false;
+        }
+        if (name1.length < 4 || name1.length > 16) {
+            div.innerHTML = "姓名输入的长度4-16个字符！";
+            document.form1.text1.select();
+            return false;
+        }
+        var charname1 = name1.toLowerCase();
+        for (var i = 0; i < name1.length; i++) {
+            var charname = charname1.charAt(i);
+            if (! (charname >= 0 && charname <= 9) && (!(charname >= 'a' && charname <= 'z')) && (charname != '_')&& (charname > 255)) {
+                div.innerHTML = "姓名包含非法字母，只能包含字母，数字，和下划线";
+                document.form1.text1.select();
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    function checkpassword() {
+        var div = document.getElementById("div2");
+        div.innerHTML = "";
+        var password = document.form1.text2.value;
+        if (password == "") {
+            div.innerHTML = "密码不位空！";
+            document.form1.text2.focus();
+            return false;
+        }
+        if (password.length < 4 || password.length > 12) {
+            div.innerHTML = "密码长度4-12位";
+            document.form1.text2.select();
+            return false;
+        }
+        return true;
+    }
+
+    function checkrepassword() {
+        var div = document.getElementById("div3");
+        div.innerHTML = "";
+        var password = document.form1.text2.value;
+        var repass = document.form1.text3.value;
+        if (repass == "") {
+            div.innerHTML = "密码不位空！";
+            document.form1.text3.focus();
+            return false;
+        }
+        if (password != repass) {
+            div.innerHTML = "输入密码和确认密码长度不一致";
+            document.form1.text3.select();
+            return false;
+        }
+        return true;
+    }
+    function checkPhone() {
+        var div = document.getElementById("divphone");
+        div.innerHTML = "";
+        var phone = document.form1.textPhone.value;
+        if(phone.length==0)
+        {
+        	div.innerHTML ="请输入手机号码！";
+           document.form1.textPhone.focus();
+           return false;
+        }    
+        if(phone.length!=11)
+        {
+        	div.innerHTML ="请输入有效的手机号码！";
+            document.form1.textPhone.focus();
+            return false;
+        }
+        
+        var myreg = /^(((1[0-9][0-9]{1})|159|153)+\d{8})$/;
+        if(!myreg.test(phone))
+        {
+        	div.innerHTML ="请输入有效的手机号码！";
+            document.form1.textPhone.focus();
+            return false;
+        }
+        return true;
+    }
+
+    function checkEmail() {
+        var div = document.getElementById("div5");
+        div.innerHTML = "";
+        var email = document.form1.text5.value;
+        var sw = email.indexOf("@", 0);
+        var sw1 = email.indexOf(".", 0);
+        var tt = sw1 - sw;
+        if (email.length == 0) {
+            div.innerHTML = "电子邮件不能位空";
+            document.form1.text5.focus();
+            return false;
+        }
+        if (email.indexOf("@", 0) == -1) {
+            div.innerHTML = "电子邮件格式不正确，必须包含@符号！";
+            document.form1.text5.select();
+            return false;
+        }
+        if (email.indexOf(".", 0) == -1) {
+            div.innerHTML = "电子邮件格式不正确，必须包含.符号!";
+            document.form1.text5.select();
+            return false;
+        }
+        if (tt == 1) {
+            div.innerHTML = "邮件格式不对。@和.不可以挨着！";
+            document.form1.text5.select();
+            return false;
+        }
+        if (sw > sw1) {
+            div.innerHTML = "电子邮件格式不正确，@符号必须在.之前";
+            document.form1.text5.select();
+            return false;
+        } else {
+            return true;
+        }
+
+        return ture;
+    }
+
+    function check() {
+       
+    	var SexValue;
+    	for (i=0;i<form1.sex.length;i++){
+    		if (form1.sex[i].checked){
+    			SexValue=form1.sex[i].value;
+    		    document.getElementById("usersex").value=SexValue;
+    			break;  
+    		}
+    	}
+    	if (checkname() && checkpassword() && checkrepassword() && checkEmail()&& checkPhone()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function myformatter(date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        var d = date.getDate();
+        return y + '-' + (m < 10 ? ('0' + m) : m) + '-' + (d < 10 ? ('0' + d) : d);
+    }
+   
+    function myparser(s) {
+        if (!s) return new Date();
+        var ss = (s.split('-'));
+        var y = parseInt(ss[0], 10);
+        var m = parseInt(ss[1], 10);
+        var d = parseInt(ss[2], 10);
+        if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+            return new Date(y, m - 1, d);
+        } else {
+            return new Date();
+        }
+    }
+</script>
+</head>
+
+<body>
+	<form align="center" name="form1" method="post" action="liguang/user!register.do" onsubmit="return check()">
+		<table>
+			<tr>
+				<td>用户名：</td>
+				<td><input id="text1" type="text" name="user.loginname" value="zangliguang" onblur="check()">
+					<div id="div1" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>密码：</td>
+				<td><input id="text2" type="password" name="user.pwd"value="zangliguang" onblur="check()">
+					<div id="div2" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>确认密码：</td>
+				<td><input id="text3" type="password" value="zangliguang" name="text3" onblur="check()">
+					<div id="div3" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>姓名：</td>
+				<td><input id="name" type="text" name="user.name" value="zangliguang" onblur="check()">
+					<div id="divname" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>性别：</td>
+				<td><input id="sexID1" name="sex" style="WIDTH: 30px" type='radio' checked value='0'> <label for="sexID1">男 </label> 
+				    <input id="sexID2"name="sex" style="WIDTH: 30px" type='radio' value='1'><label for="sexID2">女 </label>
+					<input type ="hidden" id ="usersex"name = "user.sex" value ="0"  >		
+					<div id="divsex" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>出生日期：</td>
+				<td><input name="birthday" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser"></input>
+					<div id="divbirthday" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>手机号：</td>
+				<td><input id="textPhone" type="text" name="user.phonenum" value="18710254879" onblur="checkPhone()">
+					<div id="divphone" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>电子邮件地址：</td>
+				<td><input id="text5" type="text" name="user.email" value="zangliguang@zangliguang.com"onblur="check()">
+					<div id="div5" style="display:inline"></div></td>
+			</tr>
+			<tr>
+				<td>身份证：</td>
+				<td><input id="textIdentity" type="text" name="user.identity" onblur="check()">
+					<div id="dividentity" style="display:inline"></div></td>
+			</tr>
+			<tr align="center">
+				<td height="41" align="center"><input type="submit" value="提交" name="tect6"> <input type="reset" value="重置" name="text7"></td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>
