@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
-
 import javax.servlet.http.HttpSession;
+import javax.websocket.Decoder.Text;
 
+import org.apache.http.util.TextUtils;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
@@ -27,10 +27,8 @@ import com.zang.liguang.service.UserService;
 import com.zang.liguang.util.LiGuangUtils;
 
 @Namespace("/liguang")
-@Results({ @Result(name = "success", location = "loginSucess.jsp"),
-		@Result(name = "ERROR", location = "error.vm"),
-		@Result(name =  "session", location = "business!getAllBusinessClassToWeb.do", type = "redirect"),
-		@Result(name = "upload", location = "upload.vm"), })
+@Results({ @Result(name = "success", location = "loginSucess.jsp"), @Result(name = "ERROR", location = "error.vm"),
+		@Result(name = "session", location = "business!getAllBusinessClassToWeb.do", type = "redirect"), @Result(name = "upload", location = "upload.vm"), })
 public class UserAction extends ActionSupport {
 
 	@Autowired
@@ -39,53 +37,59 @@ public class UserAction extends ActionSupport {
 	private User user;
 	private String ip;
 	private String birthday;
-	
 
 	@Override
 	public String execute() throws Exception {
 		System.out.println(user.getLoginname());
 		String result = ERROR;
 		System.out.println(ip);
-		if (null!=userService.login(user)) {
+		if (null != userService.login(user)) {
 			result = SUCCESS;
 		}
 
 		return result;
 	}
 
-	public String login() {
+	public void login() throws IOException {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
 		user.setPwd(LiGuangUtils.Md5(user.getPwd()));
 		String result = ERROR;
 		System.out.println(ip);
-		if(null!=ServletActionContext.getRequest().getSession().getAttribute("user")){
-			result =  "session";
-		}else{
-			User newUser=userService.login(user);
-			if (null!=newUser) {
-				ServletActionContext.getRequest().getSession().setAttribute("user", newUser); 
-				ServletActionContext.getRequest().getSession().setAttribute("ip", ip); 
-//				session.getAttribute("变量名"); //此时取出来的是Object, 一般需要强转 
-//				session.removeAttribute("变量名"); 
-//				session.invalidate(); //删除所有session中保存的键  
-				
+		if (null != ServletActionContext.getRequest().getSession().getAttribute("user")) {
+			result = "session";
+		} else {
+			User newUser = userService.login(user);
+			if (null != newUser) {
+				ServletActionContext.getRequest().getSession().setAttribute("user", newUser);
+				ServletActionContext.getRequest().getSession().setAttribute("ip", ip);
+				// session.getAttribute("变量名"); //此时取出来的是Object, 一般需要强转
+				// session.removeAttribute("变量名");
+				// session.invalidate(); //删除所有session中保存的键
+
 				result = SUCCESS;
 			}
 		}
-		return result;
+		map.put("ret",result);
+		LiGuangUtils.printJson(map);
+	
 	}
 
 	public String register() {
 		System.out.println(user.getLoginname());
 		user.setPwd(LiGuangUtils.Md5(user.getPwd()));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		try {
-			user.setBirthday(sdf.parse(birthday));
-		} catch (ParseException e) {
-			e.printStackTrace();
+		if (null!=birthday&&birthday.length()>0) {
+			try {
+				user.setBirthday(sdf.parse(birthday));
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		userService.addNewUser(user);
 		return SUCCESS;
 	}
+
 	public String saveOrupdate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 		try {
@@ -96,6 +100,7 @@ public class UserAction extends ActionSupport {
 		userService.saveOrupdate(user);
 		return SUCCESS;
 	}
+
 	public String deleteUser() {
 		userService.deleteUser(user);
 		return SUCCESS;
@@ -104,7 +109,7 @@ public class UserAction extends ActionSupport {
 	public String getAll() throws IOException {
 		List<User> list = userService.listAll();
 		JSONObject jobj = new JSONObject();
-		
+
 		jobj.accumulate("total", list.size());// total代表一共有多少数据
 		jobj.put("rows", list);// row是代表显示的页的数据
 		HttpServletResponse response = ServletActionContext.getResponse();

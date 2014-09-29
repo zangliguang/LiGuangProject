@@ -14,8 +14,7 @@
 	<context:component-scan base-package="com.zang" />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="url" value="jdbc:mysql://localhost:3306/db_liguang">
-		</property>
+		<property name="url" value="jdbc:mysql://localhost:3306/db_liguang"></property>
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root"></property>
 		<property name="password" value="111"></property>
@@ -32,13 +31,13 @@
 					org.hibernate.dialect.MySQLDialect
 				</prop>
 				<prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.connection.autocommit">true</prop>
-			    <prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.connection.autocommit">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
-		
-		
+
+
 		<property name="annotatedClasses">
 			<list>
 				<value>com.zang.liguang.po.User</value>
@@ -48,9 +47,13 @@
 				<value>com.zang.liguang.po.Area</value>
 				<value>com.zang.liguang.po.Province</value>
 				<value>com.zang.liguang.po.City</value>
-				<value>com.zang.liguang.po.Attachment</value></list>
+				<value>com.zang.liguang.po.Poetry</value>
+				<value>com.zang.liguang.po.Poetryclass</value>
+				<value>com.zang.liguang.po.City</value>
+				<value>com.zang.liguang.po.Attachment</value>
+			</list>
 		</property>
-		</bean>
+	</bean>
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
@@ -89,20 +92,18 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	
+
 	<bean id="BussinessDAO" class="com.zang.liguang.po.BussinessDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="BussinessclassDAO"
-		class="com.zang.liguang.po.BussinessclassDAO">
+	<bean id="BussinessclassDAO" class="com.zang.liguang.po.BussinessclassDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="InformationDAO"
-		class="com.zang.liguang.po.InformationDAO">
+	<bean id="InformationDAO" class="com.zang.liguang.po.InformationDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -122,8 +123,23 @@
 			<ref bean="sessionFactory" />
 		</property>
 	</bean>
-	<bean id="AttachmentDAO"
-		class="com.zang.liguang.po.AttachmentDAO">
+	<bean id="AttachmentDAO" class="com.zang.liguang.po.AttachmentDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PoetryDAO" class="com.zang.liguang.po.PoetryDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="PoetryclassDAO" class="com.zang.liguang.po.PoetryclassDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="BusinessRelationDAO"
+		class="com.zang.liguang.po.BusinessRelationDAO">
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>

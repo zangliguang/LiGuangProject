@@ -14,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
  * User entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "user", catalog = "db_liguang")
+@Table(name = "user")
 public class User implements java.io.Serializable {
 
 	// Fields
@@ -36,8 +36,7 @@ public class User implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public User(String loginname, String pwd, String name, String sex,
-			Date birthday, String phonenum, String email, String identity) {
+	public User(String loginname, String pwd, String name, String sex, Date birthday, String phonenum, String email, String identity) {
 		this.loginname = loginname;
 		this.pwd = pwd;
 		this.name = name;

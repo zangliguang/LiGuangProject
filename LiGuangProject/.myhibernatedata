@@ -1,5 +1,5 @@
 #MyEclipse Hibernate Properties
-#Mon Jun 30 18:12:14 CST 2014
+#Sat Sep 27 13:05:13 CST 2014
 genBasicCompId=true
 sessionFactoryName=com.zang.liguang.dao.HibernateSessionFactory
 profile=
@@ -16,5 +16,5 @@ sessionFactoryId=sessionFactory
 basePersistenceClass=
 genAnnotations=true
 reSettingsFile=
-configFile=/LiGuangProJect/src/applicationContext.xml
+configFile=/LiGuangProject/src/hibernate.cfg.xml
 createConfigFile=true

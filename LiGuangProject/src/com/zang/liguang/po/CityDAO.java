@@ -69,8 +69,7 @@ public class CityDAO {
 	public City findById(java.lang.Integer id) {
 		log.debug("getting City instance with id: " + id);
 		try {
-			City instance = (City) getCurrentSession().get(
-					"com.zang.liguang.po.City", id);
+			City instance = (City) getCurrentSession().get("com.zang.liguang.po.City", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -81,11 +80,8 @@ public class CityDAO {
 	public List<City> findByExample(City instance) {
 		log.debug("finding City instance by example");
 		try {
-			List<City> results = (List<City>) getCurrentSession()
-					.createCriteria("com.zang.liguang.po.City")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			List<City> results = (List<City>) getCurrentSession().createCriteria("com.zang.liguang.po.City").add(create(instance)).list();
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -94,11 +90,9 @@ public class CityDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding City instance with property: " + propertyName
-				+ ", value: " + value);
+		log.debug("finding City instance with property: " + propertyName + ", value: " + value);
 		try {
-			String queryString = "from City as model where model."
-					+ propertyName + "= ?";
+			String queryString = "from City as model where model." + propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -158,8 +152,7 @@ public class CityDAO {
 	public void attachClean(City instance) {
 		log.debug("attaching clean City instance");
 		try {
-			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
-					instance);
+			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

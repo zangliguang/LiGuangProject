@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class InformationDAO {
-	private static final Logger log = LoggerFactory
-			.getLogger(InformationDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(InformationDAO.class);
 	// property constants
 	public static final String OWNERID = "ownerid";
 	public static final String BID = "bid";
@@ -71,8 +70,7 @@ public class InformationDAO {
 	public Information findById(java.lang.String id) {
 		log.debug("getting Information instance with id: " + id);
 		try {
-			Information instance = (Information) getCurrentSession().get(
-					"com.zang.liguang.po.Information", id);
+			Information instance = (Information) getCurrentSession().get("com.zang.liguang.po.Information", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -83,11 +81,8 @@ public class InformationDAO {
 	public List<Information> findByExample(Information instance) {
 		log.debug("finding Information instance by example");
 		try {
-			List<Information> results = (List<Information>) getCurrentSession()
-					.createCriteria("com.zang.liguang.po.Information")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			List<Information> results = (List<Information>) getCurrentSession().createCriteria("com.zang.liguang.po.Information").add(create(instance)).list();
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -96,11 +91,9 @@ public class InformationDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Information instance with property: " + propertyName
-				+ ", value: " + value);
+		log.debug("finding Information instance with property: " + propertyName + ", value: " + value);
 		try {
-			String queryString = "from Information as model where model."
-					+ propertyName + "= ?";
+			String queryString = "from Information as model where model." + propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -141,8 +134,7 @@ public class InformationDAO {
 	public Information merge(Information detachedInstance) {
 		log.debug("merging Information instance");
 		try {
-			Information result = (Information) getCurrentSession().merge(
-					detachedInstance);
+			Information result = (Information) getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -165,8 +157,7 @@ public class InformationDAO {
 	public void attachClean(Information instance) {
 		log.debug("attaching clean Information instance");
 		try {
-			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
-					instance);
+			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -174,8 +165,7 @@ public class InformationDAO {
 		}
 	}
 
-	public static InformationDAO getFromApplicationContext(
-			ApplicationContext ctx) {
+	public static InformationDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (InformationDAO) ctx.getBean("InformationDAO");
 	}
 }
