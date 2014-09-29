@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.zang.liguang.po.Attachment;
 import com.zang.liguang.po.BaseHibernateDAO;
 import com.zang.liguang.po.Bussiness;
 import com.zang.liguang.po.BussinessDAO;
@@ -60,6 +61,23 @@ public class BusinessServiceImpl implements BusinessService {
 	public void saveOrupdateBusiness(Bussiness business) {
 		basedao.saveOrUpdate(business);	
 		
+	}
+
+	@Override
+	public Bussiness getBusinessById(String bid) {
+		return bd.findById(bid);
+	}
+
+	@Override
+	public List<Attachment> getBusinessPic(String bid) {
+//		basedao.executebysql("select s from Bussinessclass s ORDER BY s.ordernum ");
+//		return basedao.findByProperty(Attachment.class, "belongid", bid);
+		return basedao.executebysql("select s from Attachment s where s.belongid in (select i.inforid from Information i where i.subject = '"+bid+"')");
+	}
+
+	@Override
+	public List<Bussiness> getMyBusinessByMasterId(String uid) {
+		return basedao.findByProperty(Bussiness.class, "masterid", uid);
 	}
 
 }

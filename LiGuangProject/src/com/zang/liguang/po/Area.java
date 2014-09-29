@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
  * Area entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "area", catalog = "db_liguang")
+@Table(name = "area")
 public class Area implements java.io.Serializable {
 
 	// Fields

@@ -23,8 +23,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <a  href="user.jsp" rel="nofollow">用户</a><br>
-    <a  href="BusinessClass.jsp" rel="nofollow">业务分类</a><br>
-    <a  href="business.jsp" rel="nofollow">业务</a><br>
+    <a  href="user.jsp" rel="nofollow" target="_blank">用户</a><br>
+    <a  href="BusinessClass.jsp" rel="nofollow" target="_blank">业务分类</a><br>
+    <a  href="business.jsp" rel="nofollow" target="_blank">业务</a><br>
+    <a  href="liguang/poetry!gotoAddPoetryPage.do" rel="nofollow" target="_blank">添加诗词</a><br>
+    <a  href="liguang/poetry!getAllPoetry.do" rel="nofollow" target="_blank">查询诗词</a><br>
+    <a  href="publicinfo.jsp" rel="nofollow">发布信息</a>
   </body>
 </html>

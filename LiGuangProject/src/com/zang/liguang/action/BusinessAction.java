@@ -1,28 +1,32 @@
 package com.zang.liguang.action;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.zang.liguang.po.Attachment;
 import com.zang.liguang.po.Bussiness;
 import com.zang.liguang.po.Bussinessclass;
+import com.zang.liguang.po.User;
 import com.zang.liguang.service.BusinessService;
 import com.zang.liguang.util.LiGuangUtils;
 
 @Namespace("/liguang")
 @Results({ @Result(name = "success", location = "loginSucess.jsp"),
 		@Result(name = "ERROR", location = "error.vm"),
-		@Result(name = "GETBUSINESSCLASS", location = "first.jsp"), })
+		@Result(name = "GETBUSINESSCLASS", location = "business/ShopList.jsp"),
+		@Result(name = "businessinfo", location = "business/ShopDetailPage.jsp"),
+		@Result(name = "savebusiness", location = "business/Businesspublicinfo.jsp"),
+		@Result(name = "mybusinessshop", location = "business/MyBusinessShop.jsp"),
+		@Result(name = "goToHomePage", location = "LiGuangHome.jsp"), })
+//@Result(name = "GETBUSINESSCLASS", location = "first.jsp"), })
 public class BusinessAction extends ActionSupport {
 
 	
@@ -31,15 +35,26 @@ public class BusinessAction extends ActionSupport {
 	
 	private List<Bussiness> businesslist;
 	private List<Bussinessclass> businessclasslist;
+	private List<Attachment> attachmentlist;
 	private Bussinessclass businessclass;
 	private Bussiness business;
 	private String classid; 
+	private String bid; 
 	@Override
 	public String execute() throws Exception {
 		// TODO Auto-generated method stub
 		return super.execute();
 	}
 
+	public String getBusinessInfo() throws IOException {
+		business = businessService.getBusinessById(bid);
+		attachmentlist=businessService.getBusinessPic(bid);
+		InetAddress myIPaddress=InetAddress.getLocalHost();
+        String mi = myIPaddress.getHostAddress();
+        System.out.println(mi);
+		//LiGuangUtils.listToJson(businesslist);
+		return "businessinfo";
+	}
 	public String getAllBusiness() throws IOException {
 		businesslist = businessService.listAllBusiness();
 		LiGuangUtils.listToJson(businesslist);
@@ -55,6 +70,9 @@ public class BusinessAction extends ActionSupport {
 		businesslist = businessService.listAllBusiness();
 		return "GETBUSINESSCLASS";
 	}
+	public String goToHomePage() throws IOException {
+		return "goToHomePage";
+	}
 	public String getAllBusinessByClassid() throws IOException {
 		businesslist = businessService.listBusinessByClassid(classid);
 		LiGuangUtils.listToJson(businesslist);
@@ -64,7 +82,7 @@ public class BusinessAction extends ActionSupport {
 	
 	public String saveOrupdateBusiness() throws IOException {
 		businessService.saveOrupdateBusiness(business);
-		return "";
+		return "savebusiness";
 	}
 	public String saveOrupdateBusinessClass() throws IOException {
 		businessService.saveOrupdateBusinessClass(businessclass);
@@ -78,6 +96,15 @@ public class BusinessAction extends ActionSupport {
 		businessService.deletebusiness(business);
 		return "";
 	}
+	public String getMyBusinessByMasterId() throws IOException {
+		User user=(User) ServletActionContext.getRequest().getSession().getAttribute("user");
+		if(null!=user){
+			businesslist=businessService.getMyBusinessByMasterId(user.getUid());
+		}
+		return "mybusinessshop";
+	}
+	
+	
 
 	
 	
@@ -129,4 +156,19 @@ public class BusinessAction extends ActionSupport {
 		this.business = business;
 	}
 
+	public String getBid() {
+		return bid;
+	}
+
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+
+	public List<Attachment> getAttachmentlist() {
+		return attachmentlist;
+	}
+
+	public void setAttachmentlist(List<Attachment> attachmentlist) {
+		this.attachmentlist = attachmentlist;
+	}
 }

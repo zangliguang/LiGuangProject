@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class ProvinceDAO {
-	private static final Logger log = LoggerFactory
-			.getLogger(ProvinceDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(ProvinceDAO.class);
 	// property constants
 	public static final String CODE = "code";
 	public static final String NAME = "name";
@@ -69,8 +68,7 @@ public class ProvinceDAO {
 	public Province findById(java.lang.Integer id) {
 		log.debug("getting Province instance with id: " + id);
 		try {
-			Province instance = (Province) getCurrentSession().get(
-					"com.zang.liguang.po.Province", id);
+			Province instance = (Province) getCurrentSession().get("com.zang.liguang.po.Province", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -81,11 +79,8 @@ public class ProvinceDAO {
 	public List<Province> findByExample(Province instance) {
 		log.debug("finding Province instance by example");
 		try {
-			List<Province> results = (List<Province>) getCurrentSession()
-					.createCriteria("com.zang.liguang.po.Province")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			List<Province> results = (List<Province>) getCurrentSession().createCriteria("com.zang.liguang.po.Province").add(create(instance)).list();
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -94,11 +89,9 @@ public class ProvinceDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Province instance with property: " + propertyName
-				+ ", value: " + value);
+		log.debug("finding Province instance with property: " + propertyName + ", value: " + value);
 		try {
-			String queryString = "from Province as model where model."
-					+ propertyName + "= ?";
+			String queryString = "from Province as model where model." + propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -131,8 +124,7 @@ public class ProvinceDAO {
 	public Province merge(Province detachedInstance) {
 		log.debug("merging Province instance");
 		try {
-			Province result = (Province) getCurrentSession().merge(
-					detachedInstance);
+			Province result = (Province) getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -155,8 +147,7 @@ public class ProvinceDAO {
 	public void attachClean(Province instance) {
 		log.debug("attaching clean Province instance");
 		try {
-			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
-					instance);
+			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

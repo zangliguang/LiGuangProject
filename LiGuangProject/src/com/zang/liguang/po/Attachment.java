@@ -12,7 +12,7 @@ import org.hibernate.annotations.GenericGenerator;
  * Attachment entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "attachment", catalog = "db_liguang")
+@Table(name = "attachment")
 public class Attachment implements java.io.Serializable {
 
 	// Fields
@@ -35,9 +35,8 @@ public class Attachment implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Attachment(String filename, String filetype, Long filesize,
-			String fileurl, String smallurl, String uid, String belongid,
-			Timestamp uploaddate, String ip) {
+	public Attachment(String filename, String filetype, Long filesize, String fileurl, String smallurl, String uid, String belongid, Timestamp uploaddate,
+			String ip) {
 		this.filename = filename;
 		this.filetype = filetype;
 		this.filesize = filesize;

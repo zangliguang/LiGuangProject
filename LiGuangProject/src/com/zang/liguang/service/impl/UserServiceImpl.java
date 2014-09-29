@@ -27,11 +27,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User login(User user) {
 		String hql="select s from User s where s.loginname=:loginname and s.pwd =:pwd" ;
+		if(null!=user.getPhonenum()){
+			hql="select s from User s where s.phonenum='"+user.getPhonenum()+"'and s.pwd ='"+user.getPwd()+"'" ;
+		}
+		if(null!=user.getEmail()){
+			hql="select s from User s where s.email='"+user.getEmail()+"'and s.pwd ='"+user.getPwd()+"'";
+		}
+		
 /*		HashMap<String, Object> params=new HashMap<>();
 		params.put("loginname", user.getLoginname());
 		params.put("pwd", user.getPwd());
 		List<User>list2=(List<User>) basedao.createHQLQuery(hql,params);*/
-		List<User>list=basedao.executebysql("select s from User s where s.loginname='"+user.getLoginname()+"'and s.pwd ='"+user.getPwd()+"'" );
+		List<User>list=basedao.executebysql(hql);
 		return list.size() > 0?list.get(0):null;
 	}
 

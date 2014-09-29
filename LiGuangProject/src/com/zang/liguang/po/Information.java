@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
  * Information entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "information", catalog = "db_liguang")
+@Table(name = "information")
 public class Information implements java.io.Serializable {
 
 	// Fields
@@ -29,8 +29,7 @@ public class Information implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Information(String ownerid, String bid, String subject,
-			String content) {
+	public Information(String ownerid, String bid, String subject, String content) {
 		this.ownerid = ownerid;
 		this.bid = bid;
 		this.subject = subject;

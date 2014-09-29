@@ -23,6 +23,10 @@ import com.zang.liguang.service.AttachmentService;
 import com.zang.liguang.service.InformationService;
 import com.zang.liguang.util.LiGuangUtils;
 
+/**
+ * @author zanglg
+ *
+ */
 @Namespace("/liguang")
 @Results({ @Result(name = "success", location = "loginSucess.jsp"), @Result(name = "ERROR", location = "error.vm"),
 		@Result(name = "GETBUSINESSCLASS", location = "first.jsp"), })
@@ -33,6 +37,7 @@ public class UploaderAction extends ActionSupport {
 	private String uid;
 	private String filename;
 	private Long filesize;
+	private String  belongid;
 	@Autowired
 	private AttachmentService attachmentService;
 
@@ -46,15 +51,16 @@ public class UploaderAction extends ActionSupport {
 		att.setUploaddate(Timestamp.valueOf(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())));
 		att.setFilename(filename);
 		att.setUid(uid);
+		//att.setBelongid(belongid);
 		att.setFilesize(file.length());
-		String outpathString = ServletActionContext.getServletContext().getRealPath("/WEB-INF/" + "upload/" + RandomfileName);
-		String AttUrl = "/WEB-INF/" + "upload/" + RandomfileName;
+		String outpathString = ServletActionContext.getServletContext().getRealPath("/upload/" + RandomfileName);
+		String AttUrl = "/upload/" + RandomfileName;
 		att.setFileurl(AttUrl);
 		att.setFiletype(LiGuangUtils.isPicture(filename) ? "pic" : "doc");
 		if (!(new File(outpathString)).getParentFile().exists()) {
 			(new File(outpathString)).getParentFile().mkdirs();
 		}
-		FileOutputStream fos = new FileOutputStream(ServletActionContext.getServletContext().getRealPath("/WEB-INF/" + "upload/" + RandomfileName));
+		FileOutputStream fos = new FileOutputStream(ServletActionContext.getServletContext().getRealPath("/upload/" + RandomfileName));
 		FileInputStream fis = new FileInputStream(file);
 
 		byte[] buffer = new byte[1024];
@@ -65,8 +71,8 @@ public class UploaderAction extends ActionSupport {
 		fos.close();
 		fis.close();
 		if (LiGuangUtils.isPicture(outpathString)) {
-			String smallname = LiGuangUtils.CreateThumbnail(ServletActionContext.getServletContext().getRealPath("/WEB-INF/" + "/upload"), RandomfileName);
-			att.setSmallurl("/WEB-INF/" + "upload/" + RandomfileName);
+			String smallname = LiGuangUtils.CreateThumbnail(ServletActionContext.getServletContext().getRealPath("/upload"), RandomfileName);
+			att.setSmallurl("/upload/" + RandomfileName);
 		}
 		User user = (User) ServletActionContext.getRequest().getSession().getAttribute("user");
 		String ip = (String) ServletActionContext.getRequest().getSession().getAttribute("ip");
@@ -146,6 +152,14 @@ public class UploaderAction extends ActionSupport {
 
 	public void setFilesize(Long filesize) {
 		this.filesize = filesize;
+	}
+
+	public String getBelongid() {
+		return belongid;
+	}
+
+	public void setBelongid(String belongid) {
+		this.belongid = belongid;
 	}
 
 }

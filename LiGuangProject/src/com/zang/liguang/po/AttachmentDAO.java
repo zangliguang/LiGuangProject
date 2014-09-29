@@ -25,8 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class AttachmentDAO {
-	private static final Logger log = LoggerFactory
-			.getLogger(AttachmentDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(AttachmentDAO.class);
 	// property constants
 	public static final String FILENAME = "filename";
 	public static final String FILETYPE = "filetype";
@@ -76,8 +75,7 @@ public class AttachmentDAO {
 	public Attachment findById(java.lang.String id) {
 		log.debug("getting Attachment instance with id: " + id);
 		try {
-			Attachment instance = (Attachment) getCurrentSession().get(
-					"com.zang.liguang.po.Attachment", id);
+			Attachment instance = (Attachment) getCurrentSession().get("com.zang.liguang.po.Attachment", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -88,11 +86,8 @@ public class AttachmentDAO {
 	public List<Attachment> findByExample(Attachment instance) {
 		log.debug("finding Attachment instance by example");
 		try {
-			List<Attachment> results = (List<Attachment>) getCurrentSession()
-					.createCriteria("com.zang.liguang.po.Attachment")
-					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			List<Attachment> results = (List<Attachment>) getCurrentSession().createCriteria("com.zang.liguang.po.Attachment").add(create(instance)).list();
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -101,11 +96,9 @@ public class AttachmentDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Attachment instance with property: " + propertyName
-				+ ", value: " + value);
+		log.debug("finding Attachment instance with property: " + propertyName + ", value: " + value);
 		try {
-			String queryString = "from Attachment as model where model."
-					+ propertyName + "= ?";
+			String queryString = "from Attachment as model where model." + propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -162,8 +155,7 @@ public class AttachmentDAO {
 	public Attachment merge(Attachment detachedInstance) {
 		log.debug("merging Attachment instance");
 		try {
-			Attachment result = (Attachment) getCurrentSession().merge(
-					detachedInstance);
+			Attachment result = (Attachment) getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -186,8 +178,7 @@ public class AttachmentDAO {
 	public void attachClean(Attachment instance) {
 		log.debug("attaching clean Attachment instance");
 		try {
-			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
-					instance);
+			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);

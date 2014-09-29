@@ -24,8 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class BussinessclassDAO {
-	private static final Logger log = LoggerFactory
-			.getLogger(BussinessclassDAO.class);
+	private static final Logger log = LoggerFactory.getLogger(BussinessclassDAO.class);
 	// property constants
 	public static final String BCLASSNAME = "bclassname";
 	public static final String ORDERNUM = "ordernum";
@@ -69,8 +68,7 @@ public class BussinessclassDAO {
 	public Bussinessclass findById(java.lang.String id) {
 		log.debug("getting Bussinessclass instance with id: " + id);
 		try {
-			Bussinessclass instance = (Bussinessclass) getCurrentSession().get(
-					"com.zang.liguang.po.Bussinessclass", id);
+			Bussinessclass instance = (Bussinessclass) getCurrentSession().get("com.zang.liguang.po.Bussinessclass", id);
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
@@ -81,11 +79,9 @@ public class BussinessclassDAO {
 	public List<Bussinessclass> findByExample(Bussinessclass instance) {
 		log.debug("finding Bussinessclass instance by example");
 		try {
-			List<Bussinessclass> results = (List<Bussinessclass>) getCurrentSession()
-					.createCriteria("com.zang.liguang.po.Bussinessclass")
+			List<Bussinessclass> results = (List<Bussinessclass>) getCurrentSession().createCriteria("com.zang.liguang.po.Bussinessclass")
 					.add(create(instance)).list();
-			log.debug("find by example successful, result size: "
-					+ results.size());
+			log.debug("find by example successful, result size: " + results.size());
 			return results;
 		} catch (RuntimeException re) {
 			log.error("find by example failed", re);
@@ -94,11 +90,9 @@ public class BussinessclassDAO {
 	}
 
 	public List findByProperty(String propertyName, Object value) {
-		log.debug("finding Bussinessclass instance with property: "
-				+ propertyName + ", value: " + value);
+		log.debug("finding Bussinessclass instance with property: " + propertyName + ", value: " + value);
 		try {
-			String queryString = "from Bussinessclass as model where model."
-					+ propertyName + "= ?";
+			String queryString = "from Bussinessclass as model where model." + propertyName + "= ?";
 			Query queryObject = getCurrentSession().createQuery(queryString);
 			queryObject.setParameter(0, value);
 			return queryObject.list();
@@ -131,8 +125,7 @@ public class BussinessclassDAO {
 	public Bussinessclass merge(Bussinessclass detachedInstance) {
 		log.debug("merging Bussinessclass instance");
 		try {
-			Bussinessclass result = (Bussinessclass) getCurrentSession().merge(
-					detachedInstance);
+			Bussinessclass result = (Bussinessclass) getCurrentSession().merge(detachedInstance);
 			log.debug("merge successful");
 			return result;
 		} catch (RuntimeException re) {
@@ -155,8 +148,7 @@ public class BussinessclassDAO {
 	public void attachClean(Bussinessclass instance) {
 		log.debug("attaching clean Bussinessclass instance");
 		try {
-			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(
-					instance);
+			getCurrentSession().buildLockRequest(LockOptions.NONE).lock(instance);
 			log.debug("attach successful");
 		} catch (RuntimeException re) {
 			log.error("attach failed", re);
@@ -164,8 +156,7 @@ public class BussinessclassDAO {
 		}
 	}
 
-	public static BussinessclassDAO getFromApplicationContext(
-			ApplicationContext ctx) {
+	public static BussinessclassDAO getFromApplicationContext(ApplicationContext ctx) {
 		return (BussinessclassDAO) ctx.getBean("BussinessclassDAO");
 	}
 }

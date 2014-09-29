@@ -26,7 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script>
 		$(function(){
-			window.location.href ="liguang/business!getAllBusinessClassToWeb.do"
+			window.location.href ="liguang/business!goToHomePage.do"
 		});
 	</script>
 	
